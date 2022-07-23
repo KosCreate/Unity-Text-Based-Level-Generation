@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Level
   m_EditorClassIdentifier: 
   levelTextAsset: {fileID: 4900000, guid: 9596ce96bf44455408e4506c396e137c, type: 3}
-  symbols: 23002e00
+  symbols: 23002e0024005e005800
   prefabs:
-  - {fileID: 4464426486670834353, guid: df202428ae6ba6141873f7de55b31b91, type: 3}
   - {fileID: 4256104937970436258, guid: abc2c817eca3ce4459db0c591ba572e1, type: 3}
+  - {fileID: 4464426486670834353, guid: df202428ae6ba6141873f7de55b31b91, type: 3}
+  - {fileID: 9169000896519225717, guid: 8d6cf147fc3725f4db494d9be9b433d5, type: 3}
+  - {fileID: 4777966505603082930, guid: 511825a13eac80d4786c330445d264aa, type: 3}
+  - {fileID: 0}

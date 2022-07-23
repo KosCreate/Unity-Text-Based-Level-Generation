@@ -4,20 +4,23 @@ using UnityEngine;
 public class LevelGenerator : MonoBehaviour
 {
     [SerializeField] private Level level;
-    [SerializeField] private Vector3 startPosition;
-    private GameObject levelGO;
+    [SerializeField] private Vector3 levelRotation;
+    private Vector3 _startPosition;
+    private GameObject _levelGo;
     private void Start() => Initialization(); 
     
     private void Initialization() {
         level.Initialization();
-        levelGO = new GameObject();
-        levelGO.name = "Level";
-        startPosition = transform.position;
+        _levelGo = new GameObject();
+        _levelGo.name = "Level";
+        _levelGo.transform.SetParent(transform);
+        _startPosition = transform.position;
+        int levelWidth = level.GetWidthAndHeight().Item1;
         // Start the loop on the third line since the first two is for the width and height number
         for (int y = 2; y < level.GetLevelStrings().Length; y++)
         {
             // Now on each line, we loop on every char of the string in the text, and stop when we reach the width number
-            for (int x = 0; x < level.GetWidthAndHeight().Item1; x++)
+            for (int x = 0; x < levelWidth; x++)
             {
                 // We convert the whole horizontal line at the height position into char array
                 string rowLineText = level.GetLevelStrings()[y];
@@ -28,18 +31,17 @@ public class LevelGenerator : MonoBehaviour
                 PlacePrefab(charText, x, y);
             }
         }
+        _levelGo.transform.rotation = Quaternion.Euler(levelRotation);
     }
-    private void PlacePrefab(char symbol, int xPosition, int yPosition)
+    private void PlacePrefab(char symbol, int xPosition, int yPosition) 
     {
-            GameObject obj;
-            level.GetObjectCollection().TryGetValue(symbol, out obj);
-            // Here we offset the xPosition and yPosition against the start position. 
-            // We add 2 to the Y position because of the width and height number. 
-            // And we deduct the Y position here because the level is generated from the top left, 
-            // so we are going from top to down for the level horizontal line.
-            Vector2 position = startPosition + new Vector3(xPosition, 2 - yPosition);
-            GameObject temp = Instantiate(obj, position, Quaternion.identity);
-            temp.name = $"OBJECT {xPosition}:{yPosition}"; 
-            temp.transform.SetParent(levelGO.transform);
+        level.GetObjectCollection().TryGetValue(symbol, out GameObject obj);
+        Debug.Log($"OBJ NULL : {obj}");
+        //You might want to leave a space empty...
+        if (obj == null) { return; }
+        Vector2 position = _startPosition + new Vector3(xPosition, 2 - yPosition);
+        GameObject temp = Instantiate(obj, position, Quaternion.identity);
+        temp.name = $"OBJECT {xPosition}:{yPosition}";
+        temp.transform.SetParent(_levelGo.transform);
     }
 }
